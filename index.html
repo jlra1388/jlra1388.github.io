@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	
+		<meta charset="utf-8"/>
+	
+		<title>Mapa de La villa de San Antonio - GEOVISOR</title>
+	
+		<!--Leaflet-->
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+		crossorigin=""/>
+		
+		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+		integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+		crossorigin="">
+  
+		</script>
+		
+		<!--Mi archivo CSS de referencia-->
+		<link rel="stylesheet" href="Index_geov.css" type="text/css">
+				
+		<!--Mapa de Stamen - Este en particular no se descarga nada-->
+		<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+	
+		<!--BingMaps-->
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
+		<script src="leaflet-bing-layer.js"></script>
+		
+		<!--ESRIMaps-->
+		<script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"
+		integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q=="
+		crossorigin=""></script>
+		
+			
+		<!--Zoom Bar-->
+		<link rel="stylesheet" type="text/css" href="L.Control.ZoomBar-master/src/L.Control.ZoomBar.css"/>
+		<script type="text/javascript" src="L.Control.ZoomBar-master/src/L.Control.ZoomBar.js"></script>
+		
+		<!--Plugins de Leaflet - MiniMap-->
+		<link rel="stylesheet" href="Control.MiniMap.css" />
+		<script src="Control.MiniMap.js" type= "text/javascript">
+		</script>
+	
+		<!--Plugins de Leaflet - Posicion del Mouse-->
+		<link rel="stylesheet" href="L.Control.MousePosition.css" />
+		<script src="L.Control.MousePosition.js" type= "text/javascript">
+		</script>
+		
+		<!--Plugins de Leaflet - Pantalla completa-->
+		<link rel='stylesheet' href='leaflet.fullscreen.css'  />
+		<script src='Leaflet.fullscreen.min.js'></script>
+		
+		<!--Plugins de Leaflet - Ver el Centro del mapa-->
+		<link rel="stylesheet" href="leaflet.viewcenter.css" />
+		<script src="leaflet.viewcenter.js"></script>
+		
+			
+		<!--Marcadores de DataVisualizationMarkers-->
+		<link rel="stylesheet" href="dvf.css" /> 
+		
+		<script src="leaflet-dvf.js"></script> 
+		<script src="leaflet-dvf.markers.js"></script> 
+		<script src="leaflet.dvf.regularpolygon.js"></script>  
+		
+		<!--Marcadores de MakiMarkers-->
+		<script src="Leaflet.MakiMarkers.js"></script>
+		
+		<!--Conexión archivos GeoJSON - HondurasEm-->
+		<script type="text/javascript" src="Aldeas_VSA.js"></script>
+		
+		<!--GetFeatureInfo WMS-->
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="L.TileLayer.BetterWMS.js"></script>
+		
+		<!--Cuadro de dialogo informativo-->
+		<link rel="stylesheet" href="Leaflet.Dialog-master/Leaflet.Dialog.css" />
+		<script src="Leaflet.Dialog-master/Leaflet.Dialog.js"></script>
+		
+		<!--Medición de áreas y distancias-->
+		<link rel="stylesheet" href="leaflet-measure.css">
+		<script src="leaflet-measure.js"></script>
+		<script src="leaflet.measurecontrol.js"></script>
+		<script src="leaflet-measure.min.js"></script>
+		
+	</head>
+	
+	<body>
+	
+	
+	
+		<!--DIV DEL ENCABEZA Y SUS ATRIBUTOS-->
+		<div class="cabecera">
+		<p><h1><em><strong> Geovisor del municipio de La Villa de San Antonio</strong></em></h1>
+		<h3><em><strong> Plan Municipal de Ordenamiento Territorial MOGT-5 FACES-UNAH </strong></em></h3></p>
+		<div id="imagen"><a href="https://es-la.facebook.com/faces.unah" title= "Ir a la página de facebook de FACES - UNAH" target="_blank"><img src="logo_faces.png" width= "130";
+		height= "80" alt="Ir a la página de FACES - UNAH" align="center" position="top" ></a></div>
+		<div id="imagen2"><a href="https://es-la.facebook.com/PalacioMunicipalVillaSanAntonio/" title= "Ir a la página de facebook de la Municipalidad" target="_blank"><img src="villasanantonio.jpg" width= "150";
+		height= "80" alt="Ir a la página de FACES - UNAH" align="center" position="top"></a></div>
+		</div>
+		<!--<div id= "linea" align="center"><strong> Visor preliminar realizado con fines academicos </strong></div>-->
+
+
+		<div id="map" class="map">
+		</div>
+		
+		<div class='space-bottom'>
+        <div id='map' class='col12 row10'></div>
+		</div>
+		
+		<div id="boton1" class="boton1">
+			<button id="Palmerola1">Aeropuerto Palmerola</button>
+		</div>
+		<div id="boton2" class="boton2">
+			<button id="Basurero1">Basurero Municipal</button>
+		</div>	
+		<div id="boton3" class="boton3">
+			<button id="Canal">Canal de Riego</button>
+		</div>
+		<div id="boton4" class="boton4">
+			<button id="Represa1">Represa El Coyolar</button>
+		</div>	
+		<div id="boton5" class="boton5">
+			<button id="stop">stop</button>
+		</div>
+		
+		<script>
+		
+		//CREACIÓN DE LOS MAPAS BASE
+		var mapbox1 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', 
+		{attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>', 
+		id: 'mapbox.streets-satellite', 
+		accessToken:'pk.eyJ1Ijoiam9hcXVpbnJleWVzIiwiYSI6ImNrMDV1cW1oeTBmcm0zY3QzZHFtejc4azUifQ.8td0uKuynZHNV8mAqJWcmg',
+		maxZoom: 20,
+		minZoom: 10,
+		keyboard: true
+		});
+		
+		var mapbox2 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', 
+		{attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>', 
+		id: 'mapbox.pirates', 
+		accessToken:'pk.eyJ1Ijoiam9hcXVpbnJleWVzIiwiYSI6ImNrMDV1cW1oeTBmcm0zY3QzZHFtejc4azUifQ.8td0uKuynZHNV8mAqJWcmg',
+		maxZoom: 18,
+		minZoom: 3,
+		keyboard: true
+		});
+		
+		var stamen1 = new L.StamenTileLayer("toner");
+		
+		var BING_KEY = 'Ag9zhTH0YVq_SspvzfsTYuR7WZqu39-ORW5fj3s5PgyZszHTpaL39NwzuBi8J1oW';
+		
+		var bingmap1 = L.tileLayer.bing(BING_KEY,{title: 'BingMap Aereo con Etiquetas', type: 'base', visible: false, imagerySet: 'AerialWithLabels'
+		});
+		
+		var ESRI1 = L.esri.basemapLayer('ImageryFirefly');
+		
+		var ESRI2 = L.esri.basemapLayer('Streets');
+		
+		var ESRI3 = L.esri.basemapLayer('NationalGeographic');
+		
+		var VSA_MUN = L.tileLayer.wms("http://localhost:8080/geoserver/VSA/wms?service=WMS", {
+		layers: "VSA:vsa_cbg_002",
+		format: 'image/png',
+		transparent: true,
+		version: '1.3.0',
+		attribution: "Villa de San Antonio, Comayagua WMS. Datos del SINIT"
+		});
+		
+			
+		/*http://localhost:8080/geoserver/VSA/wms?service=WMS&version=1.1.0&request=GetMap&layers=VSA:vsa_cbg_002&styles=&bbox=430203.0926,1570116.7309,457816.5455,1590910.6658&width=768&height=578&srs=EPSG:32616&format=application/openlayers*/
+			
+		//CREACIÓN DE LA VARIABLE MAP, CLASE L.map - COMPONENTE PRINCIPAL DEL VISOR	
+		var mapa = L.map('map',{
+		center: [14.29500, -87.54096],
+		zoom:12,
+		layers: [ESRI1,VSA_MUN],
+		maxZoom: 17,
+		minZoom: 3,
+		zoomControl: false,
+		fullscreenControl: {pseudoFullscreen: false, position: 'topleft'
+		},
+		//maxBounds: [[14.317231,-87.555903],[ 14.336156, -87.629415]]
+		});
+		
+		
+		var capasBase = { 
+		
+			"Streets-satellite de MapBox": mapbox1,
+			"Mapa tipo Piratas de MapBox": mapbox2,
+			"Mapa tipo Toner de Stamen": stamen1,
+			"BingMap aereo con etiquetas": bingmap1,
+			"Esri - ImageryFireFly": ESRI1,
+			"Esri - Streets": ESRI2,
+			"Esri - National Geographics": ESRI3,
+			
+			};
+		
+		var VSA_ASEN = L.tileLayer.wms("http://localhost:8080/geoserver/VSA/wms?service=WMS", {
+		layers: "VSA:AHH_VSA_2013",
+		format: 'image/png',
+		transparent: true,
+		version: '1.3.0',
+		attribution: "Villa de San Antonio, Comayagua WMS. Datos del SINIT"
+		});	
+		
+		
+		
+		var VSA_PAL = L.tileLayer.wms("http://localhost:8080/geoserver/VSA/wms?service=WMS", {
+		layers: "VSA:Pol_aeropuerto_palmerola",
+		format: 'image/png',
+		transparent: true,
+		version: '1.3.0',
+		attribution: "Villa de San Antonio, Comayagua WMS. Datos del SINIT"
+		});
+		
+		var VSA_UPT = L.tileLayer.wms("http://localhost:8080/geoserver/VSA/wms?service=WMS", {
+		layers: "VSA:UnidadesTP_VSA19",
+		format: 'image/png',
+		transparent: true,
+		version: '1.3.0',
+		attribution: "Villa de San Antonio, Comayagua WMS. Datos del SINIT"
+		});
+		
+		/*http://localhost:8080/geoserver/VSA/wms?service=WMS&version=1.1.0&request=GetMap&layers=VSA:UnidadesTP_VSA19&styles=&bbox=430203.09260000195,1570116.7309000008,457816.5455,1590910.6657999996&width=768&height=578&srs=EPSG:32616&format=application/openlayers*/
+			
+			
+		new L.geoJson(Aldeas_VSA);
+		
+		
+		
+		<!--Paleta de colores para Las aldeas del municipio de La Villa de San Antonio-->
+		
+		function getColor(d) {
+				return d == "Protección" ? '#7f2704' :
+				d == "Flores" ? '#de4f05' :
+				d == "Las Botijas" ? '#fd9243' :
+				d == "Villa de San Antonio" ? '#fdd1a5' :
+				d == "Los Cimientos" ? '#fff5eb' :
+				d == "Potrero Grande o Quebrada Honda" ? '#00FF00' : '#ffffff';
+				}
+
+		<!--Campo elegido: Nombre de la aldea-->
+		
+		function aldea(feature) {
+		return {
+		fillColor: getColor(feature.properties.nombre),
+		weight: 2,
+		opacity: 1,
+		color: '#000000',
+		fillOpacity: 0.7
+		};
+		}
+			
+		L.geoJson(Aldeas_VSA, {style: aldea});
+		
+		
+		<!--Popup del Nombre de la aldea y su densidad poblacional por km2-->
+		
+		function popup(feature, layer) {
+		if (feature.properties && feature.properties.cod_depto) {
+		layer.bindPopup("<ul><h3><b><em>Aldea: </b></h3>" +feature.properties.nombre+ "<h3><b>Densidad Poblacional:  </b></h3>"
+		+feature.properties.densidad+ " habitantes por Km2</em></ul>")}};
+		
+		var geojson = L.geoJson(Aldeas_VSA, {
+		style: aldea,
+		onEachFeature: popup
+		});
+		
+		
+		var areas_prot = L.tileLayer.wms("http://geoportal.icf.gob.hn:8081/geoserver/icf/wms?service=WMS", {
+		layers: "icf:areas_protegidas_hn",
+		format: 'image/png',
+		transparent: true,
+		version: '1.3.0',
+		attribution: "Villa de San Antonio, Comayagua WMS. Datos del SINIT"
+		});
+		
+		var microcuencas = L.tileLayer.wms("http://geoportal.icf.gob.hn:8081/geoserver/icf/wms?service=WMS", {
+		layers: "icf:microcuencas_declaradas",
+		format: 'image/png',
+		transparent: true,
+		version: '1.3.0',
+		attribution: "Villa de San Antonio, Comayagua WMS. Datos del SINIT"
+		});
+		
+		<!--Capa de Puntos Importantes del Municipio-->
+		
+		<!--Marcadorees de L.icon-->
+		var icono1 = L.icon({
+		iconUrl: 'Icon1.png',
+		iconSize: [20, 20],
+		});
+		var marker1= L.marker([14.321919, -87.61415], {icon: icono1});
+		marker1.bindPopup("Iglesia Católica de la Villa de San Antonio");
+		
+		
+		var icono2 = L.icon({
+		iconUrl: 'Icon2.png',
+		iconSize: [20, 20],
+		
+		});
+		var marker2= L.marker([14.271487, -87.552914], {icon: icono2});
+		marker2.bindPopup("Arte Rupestre en Las Mercedes");
+		
+		var icono3 = L.icon({
+		iconUrl: 'Icon3.png',
+		iconSize: [20, 20],
+		});
+		var marker3= L.marker([14.318833, -87.513539], {icon: icono3});
+		marker3.bindPopup("Represa El Coyolar");
+		
+		
+		<!--Marcadores de MakiMarkers-->
+		<!--Marcadores de MakeMarkers-->
+		
+		L.MakiMarkers.accessToken = "pk.eyJ1Ijoiam9hcXVpbnJleWVzIiwiYSI6ImNrMDV1cW1oeTBmcm0zY3QzZHFtejc4azUifQ.8td0uKuynZHNV8mAqJWcmg";
+		
+		
+		var maki1= L.MakiMarkers.icon ({icon:"airport", color: "#C349B6", size:"m"}); 
+		var palmerola = L.marker([14.378167, -87.620544],{icon:maki1});
+		palmerola.bindPopup("Aeropuerto Palmerola");
+		
+		
+		var maki2= L.MakiMarkers.icon ({icon:"danger", color: "#008f39", size:"m"}); 
+		var basurero = L.marker([14.3706111, -87.577961],{icon:maki2});
+		basurero.bindPopup("Botadero de basura a cielo abierto");
+		
+		
+		var maki3= L.MakiMarkers.icon ({icon:"soccer", color: "#008f39", size:"m"}); 
+		var cancha = L.marker([14.229944, -87.454647],{icon:maki3});
+		cancha.bindPopup("Cancha de Futbol de Quebrada Honda");
+		
+		var maki4= L.MakiMarkers.icon ({icon:"restaurant", color: "#0000ff", size:"m"});
+		var marcador_palillos = L.marker([ 14.333056, -87.58966],{icon:maki4});
+		marcador_palillos.bindPopup("Restaurante y Pesca Deportiva Los Palillos");
+		
+		
+		<!--Marcadorees de Data Visualization Framework (DVF)-->
+		<!--Marcadorees de Data Visualization Framework (DVF)-->
+		
+		<!--Creando un marcador personalizado-->
+		var mark1 = new L.MapMarker([14.318096, -87.550177], {
+		radius: 10,
+		fillOpacity:0.5,
+		fillColor:'green',
+		color:'red',
+		innerRadius:4,
+		numberOfSides:6,
+		rotation:0,   
+		});
+		mark1.bindPopup("Obra toma del canal de Riego de Flores");
+
+		<!--Creando un marcador con forma de polígono regular-->
+		var dvf2 = new L.RegularPolygonMarker([14.27835, -87.538625], {
+		numberOfSides: 8,
+		rotation: 0,
+		radius: 10,
+		fillColor:'black',
+		fillOpacity:1,
+		opacity:1,
+		weight:1,
+  		});
+		dvf2.bindPopup("Sitio Arqueológico Tenampúa");
+	
+		<!--Creando un marcador con forma de estrella-->
+		var estrella = new L.StarMarker([14.306082,-87.613171], {
+		numberOfPoints:6,
+		opacity:1,
+		weight:2,
+		fillColor:'cyan',
+		fillOpacity:1,
+		radius:10});
+		estrella.bindPopup("Monumento a las Fuerzas Armadas");
+
+		<!--Creando un marcador con imagen personalizada-->
+		var polImagen1 = new L.RegularPolygonMarker([14.359476,-87.428552], {
+		numberOfSides: 8,
+		rotation: 45,
+		radius: 30,
+		fillColor:'blue',
+		fillOpacity:1,
+		opacity:1,
+		weight:1,
+		imageCircleUrl: 'las_botijas.jpg' 
+		});
+		polImagen1.bindPopup("Camino a Las Botijas");	
+		
+		
+		
+		
+		
+		
+		
+		<!--Gestionar las capas como un grupo de capas-->
+		var miGrupodeCapas = L.layerGroup ([marker1,marker2,marker3,palmerola,basurero,cancha,marcador_palillos,mark1,dvf2,estrella, polImagen1]);
+		
+		
+			
+		var capasOverlay = {
+		
+					
+			"Microcuencas declaradas - ICF": microcuencas,
+			"Areas Protegidas de Honduras": areas_prot,
+			"Aldeas de La Villa de San Antonio": geojson,					
+			"Unidades de Planificación territorial": VSA_UPT,
+			"Límite municipal": VSA_MUN,
+			"Aeropuerto Palmerola": VSA_PAL,
+			"Asentamientos Humanos": VSA_ASEN,
+			"Puntos importantes del municipio": miGrupodeCapas,
+				
+			
+			};
+			
+			
+		new L.control.layers(capasBase, capasOverlay,{collapsed:true}).addTo(mapa);
+		
+		
+		
+		<!--Cuadro de díalogo informativo-->
+		
+			
+		var contenido = [
+                    "<p><h2>BIENVENIDOS AL GEOVISOR DE LA VILLA DE SAN ANTONIO</h2>",
+					"<h3 />Este geovisor fue desarrollado como proyecto de la clase ",
+					"CTE - 524: Programación Aplicada a Entornos de SIG de la Maestría",
+					" en Ordenamiento y Gestión del Territorio FACES-UNAH. Adicionalmente servirá como un insumo para la elaboración del Plan Municipal de Ordenamiento Territorial que actualmente se está desarrollando como parte del convenio suscrito entre la municipalidad y la Facultad de Ciencias Espaciales de la Universidad Autónoma de Honduras. El PMOT se desarrolla por un esfuerzo de ambas partes debido a la exigencia que supone la construcción del aeropuerto Palmerola en esta zona del país.",
+					"</p>",
+					"<p>Elaborado por: Joaquín Leonardo Reyes Ayala </p>",
+					"Cualquier duda o consulta con los datos o con el geovisor pueden contactarme al Correo:  jlra.1388@gmail.com</p>",
+                   
+                    
+                    ].join('');
+		
+		
+		
+		var dialog = L.control.dialog({
+		size: [400,400],
+		anchor:[70,460],
+		initOpen:true,
+		
+		});
+		
+		
+			  
+			  dialog.setContent(contenido).addTo(mapa);
+			  
+		
+		//Coordenadas del Fly
+		var palmerola_fly = [14.378167, -87.620544];
+		    basurero_fly = [14.3706111, -87.577961];
+		    Canal_riego = [14.318096, -87.550177];
+		    coyolar_fly = [14.318833, -87.513539];
+		
+		
+		
+		<!--Instrucciones del FLY-->
+			document.getElementById('Palmerola1').onclick = function () { mapa.flyTo(palmerola_fly, 15); };
+			document.getElementById('Basurero1').onclick = function () { mapa.flyTo(basurero_fly, 17); };
+			document.getElementById('Canal').onclick = function () { mapa.flyTo(Canal_riego, 17, {duration: 4}); };
+			document.getElementById('Represa1').onclick = function () { mapa.flyTo(coyolar_fly, 17, {duration: 4}); };
+			document.getElementById('stop').onclick = function () { mapa.stop(); };
+		
+		<!--Zoom Bar-->
+		var zoom_bar = new L.Control.ZoomBar({position: 'topleft'}).addTo(mapa);
+		
+		<!--Medición de áreas y distancias-->	
+		var measureControl = new L.control.measure({
+		
+		 
+		primaryLengthUnit: 'kilometers',
+		secondaryLengthUnit: 'meters',
+		primaryAreaUnit: 'hectares',
+		secondaryAreaUnit: 'sqmeters',
+		activeColor: '#ABE67E',
+		completedColor: '#C8F2BE',
+		popupOptions: { className: 'leaflet-measure-resultpopup', autoPanPadding: [10, 10] }		
+		
+		});
+		
+		measureControl.addTo(mapa);
+		
+	
+		
+				
+		<!--MiniMap-->
+		var miniMap = new L.Control.MiniMap(ESRI3,{ toggleDisplay: true, minimized:false, position: 'bottomright' }).addTo(mapa);
+		
+		<!--MousePosition-->
+		var MousePosition = new L.control.mousePosition(ESRI1).addTo(mapa);
+		
+		<!--Control de Escala-->
+		var escala = L.control.scale().addTo(mapa);
+		
+		
+		
+	</script>
+	
+	</body>
+	
+	
+	
+</html>

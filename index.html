@@ -22,9 +22,6 @@
 		<!--Mi archivo CSS de referencia-->
 		<link rel="stylesheet" href="Index_geov.css" type="text/css">
 				
-		<!--Mapa de Stamen - Este en particular no se descarga nada-->
-		<script type="text/javascript" src="https://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
-	
 		<!--BingMaps-->
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
 		<script src="leaflet-bing-layer.js"></script>
@@ -70,10 +67,6 @@
 		
 		<!--Conexión archivos GeoJSON - HondurasEm-->
 		<script type="text/javascript" src="Aldeas_VSA.js"></script>
-		
-		<!--GetFeatureInfo WMS-->
-		<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
-		<script src="L.TileLayer.BetterWMS.js"></script>
 		
 		<!--Cuadro de dialogo informativo-->
 		<link rel="stylesheet" href="Leaflet.Dialog-master/Leaflet.Dialog.css" />
@@ -147,8 +140,6 @@
 		keyboard: true
 		});
 		
-		var stamen1 = new L.StamenTileLayer("toner");
-		
 		var BING_KEY = 'Ag9zhTH0YVq_SspvzfsTYuR7WZqu39-ORW5fj3s5PgyZszHTpaL39NwzuBi8J1oW';
 		
 		var bingmap1 = L.tileLayer.bing(BING_KEY,{title: 'BingMap Aereo con Etiquetas', type: 'base', visible: false, imagerySet: 'AerialWithLabels'
@@ -189,7 +180,6 @@
 		
 			"Streets-satellite de MapBox": mapbox1,
 			"Mapa tipo Piratas de MapBox": mapbox2,
-			"Mapa tipo Toner de Stamen": stamen1,
 			"BingMap aereo con etiquetas": bingmap1,
 			"Esri - ImageryFireFly": ESRI1,
 			"Esri - Streets": ESRI2,
